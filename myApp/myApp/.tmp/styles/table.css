@@ -1,0 +1,14 @@
+table {	
+    table-align:center;
+	border: 1px solid black;
+	width: 25%;
+}
+
+th, td {
+    
+	height: 50px;
+	padding: 15px;
+	text-align: left;
+	
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRhYmxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLG1CQUFtQjtDQUN0Qix3QkFBd0I7Q0FDeEIsV0FBVztDQUNYOztBQUVEOztDQUVDLGFBQWE7Q0FDYixjQUFjO0NBQ2QsaUJBQWlCOztDQUVqQiIsImZpbGUiOiJ0YWJsZS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJ0YWJsZSB7XHRcclxuICAgIHRhYmxlLWFsaWduOmNlbnRlcjtcclxuXHRib3JkZXI6IDFweCBzb2xpZCBibGFjaztcclxuXHR3aWR0aDogMjUlO1xyXG59XHJcblxyXG50aCwgdGQge1xyXG4gICAgXHJcblx0aGVpZ2h0OiA1MHB4O1xyXG5cdHBhZGRpbmc6IDE1cHg7XHJcblx0dGV4dC1hbGlnbjogbGVmdDtcclxuXHRcclxufSJdfQ== */
