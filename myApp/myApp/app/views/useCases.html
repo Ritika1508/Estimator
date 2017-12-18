@@ -1,0 +1,491 @@
+<script src="https://cdn.jsdelivr.net/alasql/0.2.3/alasql.min.js"></script>
+<script src="http://alasql.org/console/xlsx.core.min.js"></script>
+<div ng-style="myStyle"  ng-controller="UsecasestabCtrl">
+   <div class="form-group pull-right">
+      <button class="btn btn-link" ng-click="">
+      <span class="glyphicon glyphicon-import"></span>
+      Upload
+      </button>
+      <!--<button class="btn btn-link" ng-click="exportToExcel('#tableToExport')">
+      <span class="glyphicon glyphicon-share"></span>
+      Export to Excel
+      </button>
+	  -->
+	  <a href="/views/searchEstimation">Search</a>
+	  <button class="btn btn-link"  onclick="saveExcelFile()">  
+      <span class="glyphicon glyphicon-share"></span>
+      Save Excel File
+      </button>
+   </div>
+   <div >
+      <form name="form" novalidate ng-submit="submitSheet()">
+         <div id="tabs">
+            <ul>
+               <li ng-repeat="tab in tabs" 
+                  ng-class="{active:isActiveTab(tab.url)}" 
+                  ng-click="onClickTab(tab)" style = "float: left">{{tab.title}}</li>
+            </ul>
+            <div id="mainView">
+               <div ng-include="currentTab"></div>
+            </div>
+         </div>
+         <div > <!--//Dynamic usecase page: changed <tbody> part code in all below tables to dynamically populate data - Start -->
+            <script type="text/ng-template" id="ccConfig.tpl.html">
+               <div id="ccConfig" ng-style="myStyle">
+                  <table width="100%" style="background-color: lightgrey;" ng-style="tableStyle" id="tableToExport">
+                     <thead ng-style="tableStyle">
+                        <tr ng-style="tableStyle">
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle" colspan="3" style="text-align: center;">Development Baseline</th>
+                           <th ng-style="tableStyle" style="text-align: center;">1760</th>
+						   <!---<th ng-repeat-start = "typetitle in types">--->
+                           <th ng-repeat-start = "typetitle in types" ng-style="tableStyle" colspan="5" style="text-align: center;" ng-bind = "typetitle.name"/>
+                           <th ng-repeat-end ng-style="tableStyle" style="text-align: center;"><span id = "personalAutoaggregate_ccconfig" ng-bind = "personalAutoaggregate_ccconfig[{{$index}}]"></span></th>
+                           <!---</th ng-repeat-end>-->
+               
+                        </tr>
+                        <tr ng-style="tableStyle">
+                           <th style="text-align: center;" ng-style="tableStyle">S.No</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Feature</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Use Case</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Feature Type&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Total&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types" >&nbsp;InScope&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Accelerator Available&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Confidence Level&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-end>&nbsp;Total&nbsp;</th>
+                           
+                        </tr>
+                     </thead>
+					<tbody style="background-color: #fffff0" ng-style="tableStyle">
+					<tr ng-repeat="useCase in useCaseOptions[0].ccConfig | filter: searchTerm | orderBy: orderProperty">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.sNo">
+                           <td rowspan="1" style="text-align: center; background-color: #fffff0" ng-style="tableStyle">Notification FNOL - New Claim</td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.useCase">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.featureType">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseComplexity1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseCustomization1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseTotal1"></span></td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccconfig[$parent.$index+''+$index],availableComplexity_ccconfig[$parent.$index+''+$index],availableCustomization_ccconfig[$parent.$index+''+$index],availableAccelerator_ccconfig[$parent.$index+''+$index],availableConfidenceLevel_ccconfig[$parent.$index+''+$index],'availableOptions',{{$parent.$index+''+$index}},$index)" ng-options="availableOption for availableOption in availableOpts" id="availableOptions" ng-model="availableOptions_ccconfig[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccconfig[$parent.$index+''+$index],availableComplexity_ccconfig[$parent.$index+''+$index],availableCustomization_ccconfig[$parent.$index+''+$index],availableAccelerator_ccconfig[$parent.$index+''+$index],availableConfidenceLevel_ccconfig[$parent.$index+''+$index],'availableComplexity',{{$parent.$index+''+$index}},$index)" ng-options="availableComplexity for availableComplexity in availableComplexities" id="availableComplexity" ng-model="availableComplexity_ccconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccconfig[$parent.$index+''+$index],availableComplexity_ccconfig[$parent.$index+''+$index],availableCustomization_ccconfig[$parent.$index+''+$index],availableAccelerator_ccconfig[$parent.$index+''+$index],availableConfidenceLevel_ccconfig[$parent.$index+''+$index],'availableCustomization',{{$parent.$index+''+$index}},$index)" ng-options="availableCustomization for availableCustomization in availableCustomizations" id="availableCustomization" ng-model="availableCustomization_ccconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccconfig[$parent.$index+''+$index],availableComplexity_ccconfig[$parent.$index+''+$index],availableCustomization_ccconfig[$parent.$index+''+$index],availableAccelerator_ccconfig[$parent.$index+''+$index],availableConfidenceLevel_ccconfig[$parent.$index+''+$index],'availableAccelerator',{{$parent.$index+''+$index}},$index)" ng-options="accelerator for accelerator in accelerators" id="availableAccelerator" ng-model="availableAccelerator_ccconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccconfig[$parent.$index+''+$index],availableComplexity_ccconfig[$parent.$index+''+$index],availableCustomization_ccconfig[$parent.$index+''+$index],availableAccelerator_ccconfig[$parent.$index+''+$index],availableConfidenceLevel_ccconfig[$parent.$index+''+$index],'availableConfidenceLevel',{{$parent.$index+''+$index}},$index)" ng-options="availableConfidenceLevel for availableConfidenceLevel in availableConfidenceLevels" id="availableConfidenceLevel" ng-model="availableConfidenceLevel_ccconfig[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-end><span id="{{$parent.$index+''+$index}}" ng-bind="personalAutoTotalArray_ccconfig[{{$parent.$index+''+$index}}]"></span></td>
+					</tr>
+				  	</tbody>
+               
+               
+               </table>
+               </div>
+            </script>
+			
+			<script type="text/ng-template" id="ccInteg.tpl.html">
+               <div id="ccInteg" ng-style="myStyle">
+                  <table width="100%" style="background-color: lightgrey;" ng-style="tableStyle" id="tableToExport">
+                     <thead ng-style="tableStyle">
+                        <tr ng-style="tableStyle">
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle" colspan="3" style="text-align: center;">Development Baseline</th>
+                           <th ng-style="tableStyle" style="text-align: center;">1760</th>
+                           <th ng-repeat-start = "typetitle in types" ng-style="tableStyle" colspan="5" style="text-align: center;" ng-bind = "typetitle.name"/>
+                           <th ng-repeat-end ng-style="tableStyle" style="text-align: center;"><span ng-bind="personalAutoaggregate_ccInteg[{{$index}}]"></th>
+                           
+               
+                        </tr>
+                        <tr ng-style="tableStyle">
+                           <th style="text-align: center;" ng-style="tableStyle">S.No</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Feature</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Use Case</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Feature Type&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Total&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle"ng-repeat-start = "typetitle in types" >&nbsp;InScope&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Accelerator Available&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Confidence Level&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-end>&nbsp;Total&nbsp;</th>
+                           
+                        </tr>
+                     </thead>
+                     <tbody style="background-color: #fffff0" ng-style="tableStyle">
+					 <tr ng-repeat="useCase in useCaseOptions[0].ccInteg | filter: searchTerm | orderBy: orderProperty">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.sNo">
+                           <td rowspan="1" style="text-align: center; background-color: #fffff0" ng-style="tableStyle">Notification FNOL - New Claim</td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.useCase">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.featureType">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseComplexity1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseCustomization1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseTotal1"></span></td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccInteg[$parent.$index+''+$index],availableComplexity_ccInteg[$parent.$index+''+$index],availableCustomization_ccInteg[$parent.$index+''+$index],availableAccelerator_ccInteg[$parent.$index+''+$index],availableConfidenceLevel_ccInteg[$parent.$index+''+$index],'availableOptions',{{$parent.$index+''+$index}},$index)" ng-options="availableOption for availableOption in availableOpts" id="availableOptions" ng-model="availableOptions_ccInteg[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccInteg[$parent.$index+''+$index],availableComplexity_ccInteg[$parent.$index+''+$index],availableCustomization_ccInteg[$parent.$index+''+$index],availableAccelerator_ccInteg[$parent.$index+''+$index],availableConfidenceLevel_ccInteg[$parent.$index+''+$index],'availableComplexity',{{$parent.$index+''+$index}},$index)" ng-options="availableComplexity for availableComplexity in availableComplexities" id="availableComplexity" ng-model="availableComplexity_ccInteg[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccInteg[$parent.$index+''+$index],availableComplexity_ccInteg[$parent.$index+''+$index],availableCustomization_ccInteg[$parent.$index+''+$index],availableAccelerator_ccInteg[$parent.$index+''+$index],availableConfidenceLevel_ccInteg[$parent.$index+''+$index],'availableCustomization',{{$parent.$index+''+$index}},$index)" ng-options="availableCustomization for availableCustomization in availableCustomizations" id="availableCustomization" ng-model="availableCustomization_ccInteg[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccInteg[$parent.$index+''+$index],availableComplexity_ccInteg[$parent.$index+''+$index],availableCustomization_ccInteg[$parent.$index+''+$index],availableAccelerator_ccInteg[$parent.$index+''+$index],availableConfidenceLevel_ccInteg[$parent.$index+''+$index],'availableAccelerator',{{$parent.$index+''+$index}},$index)" ng-options="accelerator for accelerator in accelerators" id="availableAccelerator" ng-model="availableAccelerator_ccInteg[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_ccInteg[$parent.$index+''+$index],availableComplexity_ccInteg[$parent.$index+''+$index],availableCustomization_ccInteg[$parent.$index+''+$index],availableAccelerator_ccInteg[$parent.$index+''+$index],availableConfidenceLevel_ccInteg[$parent.$index+''+$index],'availableConfidenceLevel',{{$parent.$index+''+$index}},$index)" ng-options="availableConfidenceLevel for availableConfidenceLevel in availableConfidenceLevels" id="availableConfidenceLevel" ng-model="availableConfidenceLevel_ccInteg[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-end><span id="{{$parent.$index+''+$index}}" ng-bind="personalAutoTotalArray_ccInteg[{{$parent.$index+''+$index}}]"></span></td>
+					</tr>
+				  
+               </tbody>
+               
+               
+               </table>
+               </div>
+            </script>
+			<script type="text/ng-template" id="pcConfig.tpl.html">
+               <div id="pcConfig" ng-style="myStyle">
+                  <table width="100%" style="background-color: lightgrey;" ng-style="tableStyle" id="tableToExport">
+                     <thead ng-style="tableStyle">
+                        <tr ng-style="tableStyle">
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle" colspan="3" style="text-align: center;">Development Baseline</th>
+                           <th ng-style="tableStyle" style="text-align: center;">1760</th>
+                           <th ng-repeat-start = "typetitle in types" ng-style="tableStyle" colspan="5" style="text-align: center;" ng-bind = "typetitle.name"/>
+                           <th ng-repeat-end ng-style="tableStyle" style="text-align: center;"><span ng-bind="personalAutoaggregate_pcconfig[{{$index}}]"></th>
+                           
+               
+                        </tr>
+                        <tr ng-style="tableStyle">
+                           <th style="text-align: center;" ng-style="tableStyle">S.No</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Feature</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Use Case</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Feature Type&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Total&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types">&nbsp;InScope&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Accelerator Available&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Confidence Level&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-end>&nbsp;Total&nbsp;</th>
+                           
+                        </tr>
+                     </thead>
+                     <tbody style="background-color: #fffff0" ng-style="tableStyle">
+					 <tr ng-repeat="useCase in useCaseOptions[0].pcConfig | filter: searchTerm | orderBy: orderProperty">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.sNo">
+                           <td rowspan="1" style="text-align: center; background-color: #fffff0" ng-style="tableStyle">Notification FNOL - New Claim</td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.useCase">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.featureType">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseComplexity1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseCustomization1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseTotal1"></span></td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_pcconfig[$parent.$index+''+$index],availableComplexity_pcconfig[$parent.$index+''+$index],availableCustomization_pcconfig[$parent.$index+''+$index],availableAccelerator_pcconfig[$parent.$index+''+$index],availableConfidenceLevel_pcconfig[$parent.$index+''+$index],'availableOptions',{{$parent.$index+''+$index}},$index)" ng-options="availableOption for availableOption in availableOpts" id="availableOptions" ng-model="availableOptions_pcconfig[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_pcconfig[$parent.$index+''+$index],availableComplexity_pcconfig[$parent.$index+''+$index],availableCustomization_pcconfig[$parent.$index+''+$index],availableAccelerator_pcconfig[$parent.$index+''+$index],availableConfidenceLevel_pcconfig[$parent.$index+''+$index],'availableComplexity',{{$parent.$index+''+$index}},$index)" ng-options="availableComplexity for availableComplexity in availableComplexities" id="availableComplexity" ng-model="availableComplexity_pcconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_pcconfig[$parent.$index+''+$index],availableComplexity_pcconfig[$parent.$index+''+$index],availableCustomization_pcconfig[$parent.$index+''+$index],availableAccelerator_pcconfig[$parent.$index+''+$index],availableConfidenceLevel_pcconfig[$parent.$index+''+$index],'availableCustomization',{{$parent.$index+''+$index}},$index)" ng-options="availableCustomization for availableCustomization in availableCustomizations" id="availableCustomization" ng-model="availableCustomization_pcconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_pcconfig[$parent.$index+''+$index],availableComplexity_pcconfig[$parent.$index+''+$index],availableCustomization_pcconfig[$parent.$index+''+$index],availableAccelerator_pcconfig[$parent.$index+''+$index],availableConfidenceLevel_pcconfig[$parent.$index+''+$index],'availableAccelerator',{{$parent.$index+''+$index}},$index)" ng-options="accelerator for accelerator in accelerators" id="availableAccelerator" ng-model="availableAccelerator_pcconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_pcconfig[$parent.$index+''+$index],availableComplexity_pcconfig[$parent.$index+''+$index],availableCustomization_pcconfig[$parent.$index+''+$index],availableAccelerator_pcconfig[$parent.$index+''+$index],availableConfidenceLevel_pcconfig[$parent.$index+''+$index],'availableConfidenceLevel',{{$parent.$index+''+$index}},$index)" ng-options="availableConfidenceLevel for availableConfidenceLevel in availableConfidenceLevels" id="availableConfidenceLevel" ng-model="availableConfidenceLevel_pcconfig[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-end><span id="{{$parent.$index+''+$index}}" ng-bind="personalAutoTotalArray_pcconfig[{{$parent.$index+''+$index}}]"></span></td>
+					</tr>
+				  
+               </tbody>
+               
+               
+               </table>
+               </div>
+            </script>
+			<script type="text/ng-template" id="bcConfig.tpl.html">
+               <div id="bcConfig" ng-style="myStyle">
+                  <table width="100%" style="background-color: lightgrey;" ng-style="tableStyle" id="tableToExport">
+                     <thead ng-style="tableStyle">
+                        <tr ng-style="tableStyle">
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle" colspan="3" style="text-align: center;">Development Baseline</th>
+                           <th ng-style="tableStyle" style="text-align: center;">1760</th>
+                           <th ng-repeat-start = "typetitle in types" ng-style="tableStyle" colspan="5" style="text-align: center;" ng-bind = "typetitle.name"/>
+                           <th ng-repeat-end ng-style="tableStyle" style="text-align: center;"><span ng-bind="personalAutoaggregate_bcconfig[{{$index}}]"></th>
+                           
+               
+                        </tr>
+                        <tr ng-style="tableStyle">
+                           <th style="text-align: center;" ng-style="tableStyle">S.No</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Feature</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Use Case</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Feature Type&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Total&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types" >&nbsp;InScope&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Accelerator Available&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Confidence Level&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-end>&nbsp;Total&nbsp;</th>
+                           
+                        </tr>
+                     </thead>
+                     <tbody style="background-color: #fffff0" ng-style="tableStyle">
+					 <tr ng-repeat="useCase in useCaseOptions[0].bcConfig | filter: searchTerm | orderBy: orderProperty">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.sNo">
+                           <td rowspan="1" style="text-align: center; background-color: #fffff0" ng-style="tableStyle">Notification FNOL - New Claim</td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.useCase">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.featureType">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseComplexity1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseCustomization1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseTotal1"></span></td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcconfig[$parent.$index+''+$index],availableComplexity_bcconfig[$parent.$index+''+$index],availableCustomization_bcconfig[$parent.$index+''+$index],availableAccelerator_bcconfig[$parent.$index+''+$index],availableConfidenceLevel_bcconfig[$parent.$index+''+$index],'availableOptions',{{$parent.$index+''+$index}},$index)" ng-options="availableOption for availableOption in availableOpts" id="availableOptions" ng-model="availableOptions_bcconfig[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcconfig[$parent.$index+''+$index],availableComplexity_bcconfig[$parent.$index+''+$index],availableCustomization_bcconfig[$parent.$index+''+$index],availableAccelerator_bcconfig[$parent.$index+''+$index],availableConfidenceLevel_bcconfig[$parent.$index+''+$index],'availableComplexity',{{$parent.$index+''+$index}},$index)" ng-options="availableComplexity for availableComplexity in availableComplexities" id="availableComplexity" ng-model="availableComplexity_bcconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcconfig[$parent.$index+''+$index],availableComplexity_bcconfig[$parent.$index+''+$index],availableCustomization_bcconfig[$parent.$index+''+$index],availableAccelerator_bcconfig[$parent.$index+''+$index],availableConfidenceLevel_bcconfig[$parent.$index+''+$index],'availableCustomization',{{$parent.$index+''+$index}},$index)" ng-options="availableCustomization for availableCustomization in availableCustomizations" id="availableCustomization" ng-model="availableCustomization_bcconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcconfig[$parent.$index+''+$index],availableComplexity_bcconfig[$parent.$index+''+$index],availableCustomization_bcconfig[$parent.$index+''+$index],availableAccelerator_bcconfig[$parent.$index+''+$index],availableConfidenceLevel_bcconfig[$parent.$index+''+$index],'availableAccelerator',{{$parent.$index+''+$index}},$index)" ng-options="accelerator for accelerator in accelerators" id="availableAccelerator" ng-model="availableAccelerator_bcconfig[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcconfig[$parent.$index+''+$index],availableComplexity_bcconfig[$parent.$index+''+$index],availableCustomization_bcconfig[$parent.$index+''+$index],availableAccelerator_bcconfig[$parent.$index+''+$index],availableConfidenceLevel_bcconfig[$parent.$index+''+$index],'availableConfidenceLevel',{{$parent.$index+''+$index}},$index)" ng-options="availableConfidenceLevel for availableConfidenceLevel in availableConfidenceLevels" id="availableConfidenceLevel" ng-model="availableConfidenceLevel_bcconfig[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-end><span id="{{$parent.$index+''+$index}}" ng-bind="personalAutoTotalArray_bcconfig[{{$parent.$index+''+$index}}]"></span></td>
+					</tr>
+
+				  
+               </tbody>
+               
+               
+               </table>
+               </div>
+            </script>
+			<script type="text/ng-template" id="bcInteg.tpl.html">
+               <div id="bcInteg" ng-style="myStyle">
+                  <table width="100%" style="background-color: lightgrey;" ng-style="tableStyle" id="tableToExport">
+                     <thead ng-style="tableStyle">
+                        <tr ng-style="tableStyle">
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle" colspan="3" style="text-align: center;">Development Baseline</th>
+                           <th ng-style="tableStyle" style="text-align: center;">1760</th>
+                           <th ng-repeat-start = "typetitle in types" ng-style="tableStyle" colspan="5" style="text-align: center;" ng-bind = "typetitle.name"/>
+                           <th ng-repeat-end ng-style="tableStyle" style="text-align: center;"><span ng-bind="personalAutoaggregate_bcInteg[{{$index}}]"></th>
+                           
+               
+                        </tr>
+                        <tr ng-style="tableStyle">
+                           <th style="text-align: center;" ng-style="tableStyle">S.No</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Feature</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Use Case</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Feature Type&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Total&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types" >&nbsp;InScope&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Accelerator Available&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Confidence Level&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-end >&nbsp;Total&nbsp;</th>
+                           
+                        </tr>
+                     </thead>
+                     <tbody style="background-color: #fffff0" ng-style="tableStyle">
+					 <tr ng-repeat="useCase in useCaseOptions[0].bcInteg | filter: searchTerm | orderBy: orderProperty">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.sNo">
+                           <td rowspan="1" style="text-align: center; background-color: #fffff0" ng-style="tableStyle">Notification FNOL - New Claim</td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.useCase">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.featureType">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseComplexity1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseCustomization1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseTotal1"></span></td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types" ><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcInteg[$parent.$index+''+$index],availableComplexity_bcInteg[$parent.$index+''+$index],availableCustomization_bcInteg[$parent.$index+''+$index],availableAccelerator_bcInteg[$parent.$index+''+$index],availableConfidenceLevel_bcInteg[$parent.$index+''+$index],'availableOptions',{{$parent.$index+''+$index}},$index)" ng-options="availableOption for availableOption in availableOpts" id="availableOptions" ng-model="availableOptions_bcInteg[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcInteg[$parent.$index+''+$index],availableComplexity_bcInteg[$parent.$index+''+$index],availableCustomization_bcInteg[$parent.$index+''+$index],availableAccelerator_bcInteg[$parent.$index+''+$index],availableConfidenceLevel_bcInteg[$parent.$index+''+$index],'availableComplexity',{{$parent.$index+''+$index}},$index)" ng-options="availableComplexity for availableComplexity in availableComplexities" id="availableComplexity" ng-model="availableComplexity_bcInteg[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcInteg[$parent.$index+''+$index],availableComplexity_bcInteg[$parent.$index+''+$index],availableCustomization_bcInteg[$parent.$index+''+$index],availableAccelerator_bcInteg[$parent.$index+''+$index],availableConfidenceLevel_bcInteg[$parent.$index+''+$index],'availableCustomization',{{$parent.$index+''+$index}},$index)" ng-options="availableCustomization for availableCustomization in availableCustomizations" id="availableCustomization" ng-model="availableCustomization_bcInteg[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcInteg[$parent.$index+''+$index],availableComplexity_bcInteg[$parent.$index+''+$index],availableCustomization_bcInteg[$parent.$index+''+$index],availableAccelerator_bcInteg[$parent.$index+''+$index],availableConfidenceLevel_bcInteg[$parent.$index+''+$index],'availableAccelerator',{{$parent.$index+''+$index}},$index)" ng-options="accelerator for accelerator in accelerators" id="availableAccelerator" ng-model="availableAccelerator_bcInteg[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_bcInteg[$parent.$index+''+$index],availableComplexity_bcInteg[$parent.$index+''+$index],availableCustomization_bcInteg[$parent.$index+''+$index],availableAccelerator_bcInteg[$parent.$index+''+$index],availableConfidenceLevel_bcInteg[$parent.$index+''+$index],'availableConfidenceLevel',{{$parent.$index+''+$index}},$index)" ng-options="availableConfidenceLevel for availableConfidenceLevel in availableConfidenceLevels" id="availableConfidenceLevel" ng-model="availableConfidenceLevel_bcInteg[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-end ><span id="{{$parent.$index+''+$index}}" ng-bind="personalAutoTotalArray_bcInteg[{{$parent.$index+''+$index}}]"></span></td>
+					</tr>
+
+				  
+               </tbody>
+               
+               
+               </table>
+               </div>
+            </script>
+			<script type="text/ng-template" id="iNexus.tpl.html">
+               <div id="iNexus" ng-style="myStyle">
+                  <table width="100%" style="background-color: lightgrey;" ng-style="tableStyle" id="tableToExport">
+                     <thead ng-style="tableStyle">
+                        <tr ng-style="tableStyle">
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle">&nbsp;</th>
+                           <th ng-style="tableStyle" colspan="3" style="text-align: center;">Development Baseline</th>
+                           <th ng-style="tableStyle" style="text-align: center;">1760</th>
+                           <th ng-repeat-start = "typetitle in types" ng-style="tableStyle" colspan="5" style="text-align: center;" ng-bind = "typetitle.name"/>
+                           <th ng-repeat-end ng-style="tableStyle" style="text-align: center;"><span ng-bind="personalAutoaggregate_iNexus[{{$index}}]"></th>
+                           
+               
+                        </tr>
+                        <tr ng-style="tableStyle">
+                           <th style="text-align: center;" ng-style="tableStyle">S.No</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Feature</th>
+                           <th style="text-align: center;" ng-style="tableStyle">Use Case</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Feature Type&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Total&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types" >&nbsp;InScope&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Complexity&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Customization&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Accelerator Available&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle">&nbsp;Confidence Level&nbsp;</th>
+                           <th style="text-align: center;" ng-style="tableStyle" ng-repeat-end>&nbsp;Total&nbsp;</th>
+                           
+                        </tr>
+                     </thead>
+                     <tbody style="background-color: #fffff0" ng-style="tableStyle">
+					 <tr ng-repeat="useCase in useCaseOptions[0].iNexus | filter: searchTerm | orderBy: orderProperty">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.sNo">
+                           <td rowspan="1" style="text-align: center; background-color: #fffff0" ng-style="tableStyle">Notification FNOL - New Claim</td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.useCase">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle" ng-bind = "useCase.featureType">
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseComplexity1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseCustomization1"></td>
+                           <td style="text-align: center; background-color: #fffff0" ng-style="tableStyle"><span ng-bind="useCase.baseTotal1"></span></td>
+						<td style="text-align: center;" ng-style="tableStyle" ng-repeat-start = "typetitle in types" ><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_iNexus[$parent.$index+''+$index],availableComplexity_iNexus[$parent.$index+''+$index],availableCustomization_iNexus[$parent.$index+''+$index],availableAccelerator_iNexus[$parent.$index+''+$index],availableConfidenceLevel_iNexus[$parent.$index+''+$index],'availableOptions',{{$parent.$index+''+$index}},$index)" ng-options="availableOption for availableOption in availableOpts" id="availableOptions" ng-model="availableOptions_iNexus[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_iNexus[$parent.$index+''+$index],availableComplexity_iNexus[$parent.$index+''+$index],availableCustomization_iNexus[$parent.$index+''+$index],availableAccelerator_iNexus[$parent.$index+''+$index],availableConfidenceLevel_iNexus[$parent.$index+''+$index],'availableComplexity',{{$parent.$index+''+$index}},$index)" ng-options="availableComplexity for availableComplexity in availableComplexities" id="availableComplexity" ng-model="availableComplexity_iNexus[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_iNexus[$parent.$index+''+$index],availableComplexity_iNexus[$parent.$index+''+$index],availableCustomization_iNexus[$parent.$index+''+$index],availableAccelerator_iNexus[$parent.$index+''+$index],availableConfidenceLevel_iNexus[$parent.$index+''+$index],'availableCustomization',{{$parent.$index+''+$index}},$index)" ng-options="availableCustomization for availableCustomization in availableCustomizations" id="availableCustomization" ng-model="availableCustomization_iNexus[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_iNexus[$parent.$index+''+$index],availableComplexity_iNexus[$parent.$index+''+$index],availableCustomization_iNexus[$parent.$index+''+$index],availableAccelerator_iNexus[$parent.$index+''+$index],availableConfidenceLevel_iNexus[$parent.$index+''+$index],'availableAccelerator',{{$parent.$index+''+$index}},$index)" ng-options="accelerator for accelerator in accelerators" id="availableAccelerator" ng-model="availableAccelerator_iNexus[$parent.$index+''+$index]">
+						   <option value=""></option>
+						</select>
+						</td>
+						<td style="text-align: center;" ng-style="tableStyle"><select style="width: 100%" select ng-change="update(useCase.baseTotal1,availableOptions_iNexus[$parent.$index+''+$index],availableComplexity_iNexus[$parent.$index+''+$index],availableCustomization_iNexus[$parent.$index+''+$index],availableAccelerator_iNexus[$parent.$index+''+$index],availableConfidenceLevel_iNexus[$parent.$index+''+$index],'availableConfidenceLevel',{{$parent.$index+''+$index}},$index)" ng-options="availableConfidenceLevel for availableConfidenceLevel in availableConfidenceLevels" id="availableConfidenceLevel" ng-model="availableConfidenceLevel_iNexus[$parent.$index+''+$index]">
+						<option value=""></option>
+						</select>
+						</td>
+						<td ng-repeat-end style="text-align: center;" ng-style="tableStyle"><span id="{{$parent.$index+''+$index}}" ng-bind="personalAutoTotalArray_iNexus[{{$parent.$index+''+$index}}]"></span></td>
+					</tr>
+				  
+               </tbody>
+               <!--//Dynamic usecase page: changed <tbody> part code in all below tables to dynamically populate data - END -->
+               
+               </table>
+               </div>
+            </script>
+
+			
+         </div>
+
+   <div class="form-group pull-right">
+		
+		<table>
+		<tr>
+			<td>
+				<label>VERSION :</label>
+			</td>
+			<td>&nbsp;</td>
+			<td>
+				<select style="width: 100%" select ng-options="availableVersion for availableVersion in availableVersions" id="version" ng-model="versionSelected">
+					<option value=""></option>
+				</select> 
+			</td>
+			<td>&nbsp;</td>
+			<!--<td> <button type="submit" class="btn btn-primary">Save</button> </td>
+			<td>&nbsp;</td>-->
+			<td> <button type="submit" class="btn btn-primary">Submit</button> </td>
+		</tr>
+		</table>
+		
+		<!--
+			<select select ng-options="availableOption for availableOption in availableOpts" id="availableOptions" ng-model="availableOptions_bcconfig[$parent.$index+''+$index]">
+					<option value=""></option>
+			</select>
+			<button type="button" class="btn btn-primary">Back</button>
+			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		-->
+   </div>
+         </form>
+   </div>
+</div>

@@ -1,0 +1,52 @@
+<html lang="en-US">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+<body>
+
+<form ng-controller="formCntrl">
+    <input type="text" id="name" placeholder="Name" ng-model="model.name" />
+    <div ng-controller="dateCntrl">
+        <input datepicker-popup="dd-MMMM-yyyy"  ng-model="$parent.model.startDate" id="startDate" type="text" />
+        <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+    </div>
+    <div ng-controller="dateCntrl">
+        <input datepicker-popup="dd-MMMM-yyyy" ng-model="$parent.model.endDate" id="endDate" type="text" />
+        <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+    </div>
+</form>
+
+<script>
+ var app = angular.module('app', ['ui.bootstrap']);
+
+app.controller('dateCntrl', function($scope,$timeout){
+    $scope.open = function() {
+        $timeout(function() {
+            $scope.opened = true;
+        });
+    };
+});
+
+app.controller('formCntrl', function($scope, $http){
+    $scope.model = {name:'', startDate:'', endDate:''};
+});
+
+ //$(function () {
+  //$("#datepicker-13").datepicker();
+  //$("#datepicker-13").datepicker("show");
+  //});
+</script
+  
+</body>
+</html> 
+
+
+
+
+
+
+
+	
+	

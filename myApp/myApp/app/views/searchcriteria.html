@@ -1,0 +1,52 @@
+<div ng-style="myStyle" ng-controller="SearchcriteriaCtrl">
+   <form name="form" novalidate ng-submit="populateUseCases()">
+      <table border = "0" style="border-collapse: separate;border-spacing: 5px;width: 100%">
+         <tr>
+            <td><label for="clientName">Client Name:</label></td>
+            <td><span ng-bind="selectClientName.name"></span></td>
+            <td><label for="projectName">Project Name:</label></td>
+            <td><span ng-bind="selectProjectName.name"></span></td>
+         </tr>
+         <tr>
+            <td><label for="region">Region:</label></td>
+            <td><span ng-bind="selectRegionName.desc"></span></td>
+            <td><label for="country">Country:</label></td>
+            <td><span ng-bind="selectCountryName.countryName"></span></td>
+         </tr>
+         <tr>
+            <td colspan="4" >
+               <hr style="border-bottom: 1px solid #555" />
+            </td>
+         </tr>
+         <tr>
+            <td class="text-center"> <label for="pratice">Practice</label></td>
+            <td><span ng-bind="selectedPractice.praticeName"></span></td>
+            <td class="text-center"><label for="product">Product</label></td>
+            <td><select ng-model="selectedProduct" ng-options="product.productName for product in products" ng-change = productUpdate(selectedProduct) class="form-control"></select></td>
+         </tr>
+         <tr>
+            <td colspan="4">
+                  <div class="dualmultiselect"><div class="row"> <div class="col-lg-6 col-md-6 col-sm-6"> <label>All Modules</label> <button type="button" class="btn btn-default btn-xs" ng-click="transfer(items, selectedItems, -1)"> Select All Modules</button> <div class="pool"> <ul> <li ng-repeat="item in items | filter: searchTerm | orderBy: orderProperty"> <a href="" ng-click="transfer(items, selectedItems, items.indexOf(item))">{{item.name}}&nbsp;&rArr; </a> </li></ul> </div></div><div class="col-lg-6 col-md-6 col-sm-6"> <label>Selected Items</label> <button type="button" class="btn btn-default btn-xs" ng-click="transfer(selectedItems, items, -1)"> Deselect All Modules</button> <div class="pool"> <ul> <li ng-repeat="item in selectedItems | orderBy: orderProperty"> <a href="" ng-click="transfer(selectedItems, items, selectedItems.indexOf(item))"> &lArr;&nbsp;{{item.name}}</a> </li></ul> </div></div></div></div>
+            </td>
+         </tr>
+         <tr>
+            <td colspan="4">
+                  <div class="dualmultiselect"> <div class="row"> <div class="col-lg-6 col-md-6 col-sm-6"> <label>All Lobs</label> <button type="button" class="btn btn-default btn-xs" ng-click="transfer(availLOBs, selectedLobs, -1)"> Select All LOBs</button> <div class="pool"> <ul> <li ng-repeat="item in availLOBs | filter: searchTerm | orderBy: orderProperty"> <a href="" ng-click="transfer(availLOBs, selectedLobs, availLOBs.indexOf(item))">{{item.name}}&nbsp;&rArr; </a> </li></ul> </div></div><div class="col-lg-6 col-md-6 col-sm-6"> <label>Selected Items</label> <button type="button" class="btn btn-default btn-xs" ng-click="transfer(selectedLobs, availLOBs, -1)"> Deselect All LOBs</button> <div class="pool"> <ul> <li ng-repeat="item in selectedLobs | orderBy: orderProperty"> <a href="" ng-click="transfer(selectedLobs, availLOBs, selectedLobs.indexOf(item))"> &lArr;&nbsp;{{item.name}}</a> </li></ul> </div></div></div></div>
+            </td>
+         </tr>
+		
+		<!--
+         <tr>
+            <td colspan="4">
+                  <div class="dualmultiselect"><div class="row"> <div class="col-lg-6 col-md-6 col-sm-6"> <label>All Types</label> <button type="button" class="btn btn-default btn-xs" ng-click="transfer(availTypes, selectedTypes, -1)"> Select All Types</button> <div class="pool"> <ul> <li ng-repeat="item in availTypes | filter: searchTerm | orderBy: orderProperty"> <a href="" ng-click="transfer(availTypes, selectedTypes, availTypes.indexOf(item))">{{item.name}}&nbsp;&rArr; </a> </li></ul> </div></div><div class="col-lg-6 col-md-6 col-sm-6"> <label>Selected Items</label> <button type="button" class="btn btn-default btn-xs" ng-click="transfer(selectedTypes, availTypes, -1)"> Deselect All Types</button> <div class="pool"> <ul> <li ng-repeat="item in selectedTypes | orderBy: orderProperty"> <a href="" ng-click="transfer(selectedTypes, availTypes, selectedTypes.indexOf(item))"> &lArr;&nbsp;{{item.name}}</a> </li></ul> </div></div></div></div>
+            </td>
+
+         </tr>
+		-->
+      </table>
+      <div class="form-group pull-right">
+         <button type="button" class="btn btn-primary">Back</button>
+         <button type="submit" class="btn btn-primary">Next>></button>
+      </div>
+   </form>
+</div>

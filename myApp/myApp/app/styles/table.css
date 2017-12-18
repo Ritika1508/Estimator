@@ -1,0 +1,13 @@
+table {	
+    table-align:center;
+	border: 1px solid black;
+	width: 25%;
+}
+
+th, td {
+    
+	height: 50px;
+	padding: 15px;
+	text-align: left;
+	
+}

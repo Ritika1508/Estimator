@@ -1,0 +1,81 @@
+    <div ng-style="header"> <span><label>Search</label></span>
+
+
+    </div>
+
+	<div  ng-style="myStyle" ng-controller="searchJS">
+
+
+   <form name="form" novalidate ng-submit="search()" >
+    	 <div class="form-group" ng-class="">
+            <label for="clientName">Client Name</label>
+            <!--<select name="selected_client" ng-model="selectedClient" ng-options="client.name for client in clientNames" class="form-control" required>
+                <option value="">Select Client</option>
+            </select>-->
+			
+        <md-autocomplete  md-selected-item="selectedClient" md-search-text="client" md-items="item in getMatchesClient|filter:client" md-item-text="item.name" md-min-length="0" placeholder="Add Client" md-no-cache="true" ng-disabled="false">
+        <md-item-template>  <span >{{item.name}}</span></md-item-template></md-autocomplete>
+
+        </div>
+
+        <div class="form-group" ng-class="">
+            <label for="projectName">Project Name</label>
+            <!--<select ng-model="selectedProject" ng-options="project.name for project in projects" class="form-control" required>
+            <option value="">Select Project</option>
+            </select>-->
+			
+        <md-autocomplete  md-selected-item="selectedProject" md-search-text="project" md-items="item in getMatchesProject|filter:project" md-item-text="item.name" md-min-length="0" placeholder="Add Project" md-no-cache="true" ng-disabled="false">
+        <md-item-template> <span>{{item.name}}</span></md-item-template></md-autocomplete>
+
+        </div>
+
+        <div class="form-group" ng-class="">
+            <label for="region">Region</label>
+           <!-- <select ng-model="selectedRegion" ng-options="region.desc for region in regions" class="form-control" required>
+            <option value="">Select Region</option>
+            </select>-->
+			
+        <md-autocomplete  md-selected-item="selectedRegion" md-search-text="region" md-items="item in getMatchesRegion|filter:region" md-item-text="item.desc" md-min-length="0" placeholder="Add Region" md-no-cache="true" ng-disabled="false">
+        <md-item-template> <span>{{item.desc}}</span>
+
+        </md-item-template></md-autocomplete>
+
+        </div>
+
+        <div class="form-group" ng-class="">
+            <label for="country">Country</label>
+            <!--<select ng-model="selectedCountry" ng-options="country.countryName for country in countries" class="form-control" required>
+            <option value="">Select Country</option>
+			</select>-->
+			
+		<md-autocomplete  md-selected-item="selectedCountry" md-search-text="country" md-items="item in getMatchesCountry|filter:country" md-item-text="item.countryName" md-min-length="0" placeholder="Add Country" md-no-cache="true" ng-disabled="false">
+        <md-item-template> <span>{{item.countryName}}</span>
+
+        </md-item-template></md-autocomplete>
+		
+
+        </div>
+ 
+         
+		<div layout-gt-xs="row">
+			  <label for="">From Date:</label>
+			  <md-datepicker ng-model="myDate1" md-placeholder="Enter date"></md-datepicker>
+		   
+		</div>
+		
+		<div layout-gt-xs="row">
+			  <label for="">To Date:</label>
+			  <md-datepicker ng-model="myDate2" md-placeholder="Enter date"></md-datepicker>
+		 
+		</div>
+	<br>
+        <div class="form-group pull-right">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="reset" class="btn btn-primary">Reset</button>
+        </div>
+
+	</form>
+	</div>
+
+	<div id="tablePrint"> </div>
+

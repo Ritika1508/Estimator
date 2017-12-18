@@ -1,0 +1,70 @@
+    <div ng-style="header"> <span><label>Start Estimation Process</label></span>
+
+
+    </div>
+
+  <div  ng-style="myStyle" ng-controller="HomepageCtrl" ng-cloak layout = "column">
+
+
+   <form name="form" novalidate ng-submit="getDetails()" >
+     <div  ng-class="">
+            <label for="clientName">Client Name</label>
+<!--             <select name="selected_client" ng-model="selectedClient" ng-options="client for client in clientNames" class="form-control" ng-required="true">
+                <option value="">Select Client</option>
+            </select>
+            <span class="help-inline" ng-show="submitted && form.selected_client.$error.required">Client Name is required.</span> -->
+        <md-autocomplete  md-selected-item="selectedClient" md-search-text="client" md-items="item in getMatchesClient|filter:client" md-item-text="item.name" md-min-length="0" placeholder="Add Client" md-no-cache="true" ng-disabled="false">
+        <md-item-template>  <span >{{item.name}}</span></md-item-template></md-autocomplete>
+        </div>
+
+        <div  ng-class="">
+            <label for="projectName">Project Name</label>
+<!--             <select name="selectedProject" ng-model="selectedProject" ng-options="project for project in projects" class="form-control" required>
+            <option value="">Select Project</option>
+            </select>  -->               
+        <md-autocomplete  md-selected-item="selectedProject" md-search-text="project" md-items="item in getMatchesProject|filter:project" md-item-text="item.name" md-min-length="0" placeholder="Add Project" md-no-cache="true" ng-disabled="false">
+        <md-item-template> <span>{{item.name}}</span></md-item-template></md-autocomplete>
+        </div>
+
+        <div  ng-class="">
+            <label for="region">Region</label>
+<!--             <select ng-model="selectedRegion" ng-options="region for region in regions" class="form-control" required>
+            <option value="">Select Region</option>
+            </select> -->
+        <md-autocomplete  md-selected-item="selectedRegion" md-search-text="region" md-items="item in getMatchesRegion|filter:region" md-item-text="item.desc" md-min-length="0" placeholder="Add Region" md-no-cache="true" ng-disabled="false">
+        <md-item-template> <span>{{item.desc}}</span>
+
+        </md-item-template></md-autocomplete>
+        </div>
+
+        <div  ng-class="">
+            <label for="country">Country</label>
+<!--             <select ng-model="selectedCountry" ng-options="country for country in countries" class="form-control" required>
+            <option value="">Select Country</option>
+            </select> -->
+
+        <md-autocomplete  md-selected-item="selectedCountry" md-search-text="country" md-items="item in getMatchesCountry|filter:country" md-item-text="item.countryName" md-min-length="0" placeholder="Add Country" md-no-cache="true" ng-disabled="false">
+        <md-item-template> <span>{{item.countryName}}</span>
+
+        </md-item-template></md-autocomplete>
+        </div>
+
+                <div  ng-class="">
+            <label for="practice">Practice</label>
+             <select ng-model="selectedPractice" ng-options="pratice.praticeName for pratice in pratices" class="form-control">
+            <option value="">Select Practice</option>
+            </select> 
+
+
+        </div>
+
+        <br>
+        <div class="form-group pull-right">
+          <button type="submit" class="btn btn-primary">Next</button>
+            
+        </div>
+
+   </form>
+   </md-content>
+</div>
+
